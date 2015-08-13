@@ -1,0 +1,55 @@
+---
+
+#  Copyright 2015 Hiroshi Ito
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+- name: Ensure a spark group exists
+  group: name=spark
+
+- name: Ensure a spark user exists
+  user: name=spark
+        group=spark
+        system=yes
+        state=present
+
+#- name: Enxure Spark install dir exists
+#  file: path=/usr/lib/spark owner=spark group=spark state=directory
+
+- name: Download Spark package
+  get_url: url="http://ftp.jaist.ac.jp/pub/apache/spark/spark-1.4.0/spark-1.4.0-bin-hadoop2.6.tgz"
+           dest="/tmp/spark-1.4.0-bin-hadoop2.6.tgz" 
+
+- name: Unarchive Spark package
+  unarchive: src="/tmp/spark-1.4.0-bin-hadoop2.6.tgz"
+             dest="/usr/lib"
+             copy=no
+
+- name: Create symlinks
+  file: src="/usr/lib/spark-1.4.0-bin-hadoop2.6"
+        dest="/usr/lib/spark"
+        owner=spark
+        group=spark
+        state=link
+
+- name: Add webupd8 apt repo
+  apt_repository: repo="deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" state=present
+
+- name: Auto accept Oracle JDK license
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  changed_when: false
+
+- name: Install Oracle Java8
+  apt: pkg=oracle-java8-installer force=yes update-cache=yes state=latest
+ 
+
