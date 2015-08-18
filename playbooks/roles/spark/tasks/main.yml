@@ -23,20 +23,25 @@
         system=yes
         state=present
 
-#- name: Enxure Spark install dir exists
-#  file: path=/usr/lib/spark owner=spark group=spark state=directory
+- stat: path=/usr/lib/spark/spark-1.3.1-bin-hadoop2.4
+  register: spark_dir
+
+- stat: path=/tmp/spark-1.3.1-bin-hadoop2.4.tgz
+  register: spark_tgz
 
 - name: Download Spark package
-  get_url: url="http://ftp.jaist.ac.jp/pub/apache/spark/spark-1.4.0/spark-1.4.0-bin-hadoop2.6.tgz"
-           dest="/tmp/spark-1.4.0-bin-hadoop2.6.tgz" 
+  get_url: url="http://ftp.jaist.ac.jp/pub/apache/spark/spark-1.3.1/spark-1.3.1-bin-hadoop2.4.tgz"
+           dest="/tmp/spark-1.3.1-bin-hadoop2.4.tgz" 
+  when: spark_tgz.stat.exists == False or spark_dir.stat.exists == False
 
 - name: Unarchive Spark package
-  unarchive: src="/tmp/spark-1.4.0-bin-hadoop2.6.tgz"
+  unarchive: src="/tmp/spark-1.3.1-bin-hadoop2.4.tgz"
              dest="/usr/lib"
              copy=no
+  when: spark_dir.stat.exists == False
 
 - name: Create symlinks
-  file: src="/usr/lib/spark-1.4.0-bin-hadoop2.6"
+  file: src="/usr/lib/spark-1.3.1-bin-hadoop2.4"
         dest="/usr/lib/spark"
         owner=spark
         group=spark

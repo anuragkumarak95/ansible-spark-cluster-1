@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 [spark-master]
-spark-master1
+spark-master
 
 [spark-slave]
 spark-slave1
