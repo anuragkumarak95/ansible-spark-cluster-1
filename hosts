@@ -13,10 +13,10 @@
 #  limitations under the License.
 
 [spark-master]
-spark-master
+192.168.11.50
 
 [spark-slave]
-spark-slave1
-spark-slave2
-spark-slave3
+192.168.11.51
+192.168.11.52
+192.168.11.53
 
