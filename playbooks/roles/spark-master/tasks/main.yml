@@ -15,20 +15,31 @@
 #  limitations under the License.
 
 - name: Configure Spark slaves
+  become: yes
+  become_user: spark
   template: src=slaves.j2
             dest=/usr/lib/spark/conf/slaves 
             owner=spark 
             group=spark 
             mode=0644 
 
+- name: Ensure Spark env script exists
+  become: yes
+  become_user: spark
+  template: src=spark-env.sh.j2
+            dest=/usr/lib/spark/conf/spark-env.sh 
+            owner=spark 
+            group=spark 
+            mode=0755
+
 - name: Copy ssh key to slave hosts
   become: yes
   become_user: spark
-  shell: sshpass -p spark ssh-copy-id -i ~/.ssh/id_rsa.pub spark@{{item}}
+  shell: sshpass -p spark ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no spark@{{item}}
   with_items: groups['spark-slave']
 
 - name: Ensure Spark Cluster init file exists
   template: src=spark-cluster.j2
             dest=/etc/init.d/spark-cluster
-            mode=a+x
+            mode=0755
 
