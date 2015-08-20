@@ -1,0 +1,40 @@
+---
+
+#  Copyright 2015 Hiroshi Ito
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+- stat: path=/usr/lib/sparkling-walter/sparkling-walter-0.2.103
+  register: software_dir
+
+- stat: path=/tmp/sparkling-water-0.2.103.zip
+  register: software_zip
+
+- name: Download Sparkling Walter package
+  get_url: url="http://h2o-release.s3.amazonaws.com/sparkling-water/master/103/sparkling-water-0.2.103.zip"
+           dest="/tmp/sparkling-water-0.2.103.zip" 
+  when: software_zip.stat.exists == False or software_dir.stat.exists == False
+
+- name: Unarchive Sparkling Walter package
+  unarchive: src="/tmp/sparkling-water-0.2.103.zip"
+             dest="/usr/lib"
+             copy=no
+  when: software_dir.stat.exists == False
+
+- name: Create symlinks
+  file: src="/usr/lib/sparkling-water-0.2.103"
+        dest="/usr/lib/sparkling-walter"
+        owner=spark
+        group=spark
+        state=link
+
