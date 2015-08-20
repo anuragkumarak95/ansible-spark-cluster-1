@@ -19,6 +19,7 @@
 
 - name: Ensure a spark user exists
   user: name=spark
+        password=$1$raspberr$0EEKOV/LQ2GxyMHWl0NlS1
         group=spark
         system=yes
         state=present
@@ -39,6 +40,12 @@
              dest="/usr/lib"
              copy=no
   when: spark_dir.stat.exists == False
+
+- name: Ensure file permission is set
+  file: path="/usr/lib/spark-1.3.1-bin-hadoop2.4"
+        owner=spark
+        group=spark
+        recurse=yes
 
 - name: Create symlinks
   file: src="/usr/lib/spark-1.3.1-bin-hadoop2.4"
