@@ -39,22 +39,23 @@
 #    SOFTWARE.
 
 # Mapping of what hardware MAC addresses should be configured with specific IPs.
+
 mac_address_mapping:
-  "xx:xx:xx:xx:xx:xx":
+  "b8:27:eb:60:97:8f":
     name: spark-master.itohiro.jp
     ip: "192.168.11.50"
-  "xx:xx:xx:xx:xx:xx":
+  "b8:27:eb:65:94:06":
     name: spark-slave1.itohiro.jp
     ip: "192.168.11.51"
-  "xx:xx:xx:xx:xx:xx":
+  "b8:27:eb:b1:33:50":
     name: spark-slave2.itohiro.jp
     ip: "192.168.11.52"
-  "xx:xx:xx:xx:xx:xx":
+  "b8:27:eb:47:1b:cd":
     name: spark-slave3.itohiro.jp
     ip: "192.168.11.53"
 
 # Nameservers to use in resolv.conf.
 dns_nameservers:
   - "192.168.11.200"
-  - "192.168.11.1
+  - "192.168.11.1"
 
