@@ -17,6 +17,18 @@
 - hosts: all
   remote_user: root
   roles:
+  - apt
   - timezone
   - spark
+  - sparkling-walter
+
+- hosts: spark-master 
+  remote_user: spark
+  roles:
+  - spark-master
+
+- hosts: spark-slave
+  remote_user: spark
+  roles:
+  - spark-slave
 

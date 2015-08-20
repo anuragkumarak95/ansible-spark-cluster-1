@@ -55,6 +55,5 @@
   changed_when: false
 
 - name: Install Oracle Java8
-  apt: pkg=oracle-java8-installer force=yes update-cache=yes state=latest
+  apt: pkg=oracle-java8-installer update-cache=yes state=latest
  
-
