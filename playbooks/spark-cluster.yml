@@ -20,7 +20,7 @@
   - apt
   - timezone
   - spark
-  - sparkling-walter
+  - sparkling-water
 
 - hosts: spark-master 
   remote_user: spark

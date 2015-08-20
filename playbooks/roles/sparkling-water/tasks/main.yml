@@ -14,7 +14,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-- stat: path=/usr/lib/sparkling-walter/sparkling-walter-0.2.103
+- stat: path=/usr/lib/sparkling-water/sparkling-water-0.2.103
   register: software_dir
 
 - stat: path=/tmp/sparkling-water-0.2.103.zip
@@ -31,9 +31,15 @@
              copy=no
   when: software_dir.stat.exists == False
 
+- name: Ensure file permission is set
+  file: path="/usr/lib/sparkling-water-0.2.103"
+        owner=spark
+        group=spark
+        recurse=yes
+
 - name: Create symlinks
   file: src="/usr/lib/sparkling-water-0.2.103"
-        dest="/usr/lib/sparkling-walter"
+        dest="/usr/lib/sparkling-water"
         owner=spark
         group=spark
         state=link
