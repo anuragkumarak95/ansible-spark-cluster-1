@@ -1,2 +1,2 @@
 # ansible-spark-cluster
-Ansible playbook to set-up spark cluster in Ubuntu
+Ansible playbook to set-up spark cluster on Ubuntu/Raspberry Pi 2
